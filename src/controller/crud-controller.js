@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose");
 const Todo = require("../model/Todo");
 //add todo
 const addTodo = async (req, res) => {

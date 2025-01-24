@@ -1,7 +1,8 @@
 const express = require("express");
 const port = process.env.PORT || 8000;
 const router = require("./src/routes/route");
-const { verfiyUser } = require("./src/middleware/auth");
+const authRoute= require('./src/routes/auth-route')
+const cors = require("cors");
 const {
   connectToMongo,
   mongoConnection,
@@ -9,7 +10,9 @@ const {
 
 const app = express();
 
+
 //body parser middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(async (_, res, next) => {
@@ -28,9 +31,11 @@ app.use(async (_, res, next) => {
   }
 });
 
+
 app.get("/", (_, res) => {
   res.send("hello there");
 });
-app.use("/api/todo", verfiyUser, router);
+app.use("/api/todo", router);
+app.use("/api/auth",authRoute)
 
 app.listen(port, () => console.log(`Server started on ${port}`));
